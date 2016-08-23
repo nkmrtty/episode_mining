@@ -5,6 +5,7 @@ class Episode(object):
         self.frequency = 0
         self.superepisodes = []
         self.score = 0.0
+        self.inwindow_ids = []  # id = the start time of window
 
     def __iter__(self):
         for e in self.events:
