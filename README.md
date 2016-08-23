@@ -12,7 +12,7 @@ An inplementation of sequential patterm mining method [1].
         (61, 'C'), (62, 'F'), (65, 'A'), (67, 'D'),
     ], key=lambda x:x[0])
 
-    epi = sorted(['A', 'B', 'C', 'D', 'E', 'F', 'AA', 'AB', 'EF', 'CD',])
+    episodes = sorted(['A', 'B', 'C', 'D', 'E', 'F', 'AA', 'AB', 'EF', 'CD',])
     ```
 
 2. Initialize WINEPI class
