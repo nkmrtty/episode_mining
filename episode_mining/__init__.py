@@ -30,6 +30,12 @@ class ParallelEpisode(Episode):
         self.freq_count = 0
         self.inwindow = 0
 
+    def __eq__(self, other):
+        return sorted(self.events) == sorted(other)
+
+    def __ne__(self, other):
+        return sorted(self.events) != sorted(other)
+
     def count(self, event_type):
         return self.events.count(event_type)
 
