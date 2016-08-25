@@ -17,7 +17,6 @@ class WINEPI(object):
             raise Exception(
                 '`episode_type` must be `serial` or `parallel`'
             )
-        self.event_types = set()
         self.episode_type = episode_type
         self.episodes = []
 
@@ -53,7 +52,7 @@ class WINEPI(object):
                 C[size], t_s, t_e, win, min_fr)
             for epi in candidates:
                 F.append(epi)
-            C[size+1] = self.candidate_generation_parallel(
+            C[size+1] = self.candidate_generation(
                 FrequentEpisodes(candidates, size))
             size += 1
         return F
@@ -183,12 +182,13 @@ class WINEPI(object):
             beginsat[t] = set()
 
         # recognition
+        sequence = [s for s in self.sequence if t_s <= s[0] < t_e]
         for start in range(t_s-win+1, t_e+1):
             # bring in new events to the window
             t = start + win - 1
             beginsat[t] = set()
             transisions = set()
-            new_events = [s[1] for s in self.sequence if s[0] == t]
+            new_events = [s[1] for s in sequence if s[0] == t]
             for e in new_events:
                 if e not in waits:
                     continue
@@ -243,10 +243,11 @@ class WINEPI(object):
             epi.freq_count = 0
 
         # recognition
+        sequence = [s for s in self.sequence if t_s <= s[0] < t_e]
         for start in range(t_s-win+1, t_e+1):
             # bring in new events to the window
             t = start + win - 1
-            new_events = [s[1] for s in self.sequence if s[0] == t]
+            new_events = [s[1] for s in sequence if s[0] == t]
             for e in new_events:
                 if e not in cnt_event:
                     continue
@@ -260,7 +261,7 @@ class WINEPI(object):
                     pass
             # drop out old events from the window
             t = start - 1
-            old_events = [s[1] for s in self.sequence if s[0] == t]
+            old_events = [s[1] for s in sequence if s[0] == t]
             for e in old_events:
                 try:
                     for epi in contains[(e, cnt_event[e])]:

@@ -31,7 +31,7 @@ class WINEPIGen(WINEPI):
         C = {}
         F = []
         size = 1
-        C[size] = [self.Episode(e) for e in
+        C[size] = [self.Episode((e,)) for e in
                    sorted(set([e for _, e in self.sequence]))]
         while len(C[size]) > 0 and size <= max_size:
             candidates = self.recognize_candidate(
