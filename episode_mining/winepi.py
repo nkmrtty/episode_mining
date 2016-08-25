@@ -197,6 +197,8 @@ class WINEPI(object):
                         epi.inwindow = start
                     if j == 1:
                         transisions.add((epi, 1, t))
+                        if len(epi) == 1:
+                            beginsat[epi.initialized[j-1]].discard((epi, j))
                     else:
                         transisions.add((epi, j, epi.initialized[j-2]))
                         beginsat[epi.initialized[j-2]].discard((epi, j-1))

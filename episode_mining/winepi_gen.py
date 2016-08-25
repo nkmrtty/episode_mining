@@ -33,16 +33,19 @@ class WINEPIGen(WINEPI):
         size = 1
         C[size] = [self.Episode((e,)) for e in
                    sorted(set([e for _, e in self.sequence]))]
-        while len(C[size]) > 0 and size <= max_size:
+        while len(C[size]) > 0:
             candidates = self.recognize_candidate(
                 C[size], t_s, t_e, win, min_fr
             )
             F.extend(candidates)
 
-            C[size+1] = self.candidate_generation(
-                FrequentEpisodes(candidates, size)
-            )
             size += 1
+            if size > max_size:
+                break
+
+            C[size] = self.candidate_generation(
+                FrequentEpisodes(candidates, size-1)
+            )
         return F
 
     def candidate_generation_serial(self, frequent_episodes):
