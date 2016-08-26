@@ -31,8 +31,9 @@ class WINEPIGen(WINEPI):
         C = {}
         F = []
         size = 1
-        C[size] = [self.Episode((e,)) for e in
-                   sorted(set([e for _, e in self.sequence]))]
+        C[size] = FrequentEpisodes(
+            [self.Episode((e,)) for e in sorted(
+                set([e for _, e in self.sequence]))], size)
         while len(C[size]) > 0:
             candidates = self.recognize_candidate(
                 C[size], t_s, t_e, win, min_fr
@@ -86,6 +87,11 @@ class WINEPIGen(WINEPI):
                     tested_episodes.add(idx)
                 if go_to_next:
                     go_to_next = False
+                    continue
+
+                # Has episode A already checked? skip it.
+                if len([e for e in next_size_episodes if
+                        e.events == episode_a.events]) != 0:
                     continue
 
                 # epusode A is a superepisode of B

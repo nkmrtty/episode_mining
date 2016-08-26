@@ -196,20 +196,22 @@ class WINEPI(object):
                     if j == len(epi) and epi.initialized[j-1] == 0:
                         epi.inwindow = start
                     if j == 1:
-                        transisions.add((epi, 1, t))
+                        transisions = (1, t)
                         if len(epi) == 1:
                             beginsat[epi.initialized[j-1]].discard((epi, j))
                     else:
-                        transisions.add((epi, j, epi.initialized[j-2]))
+                        transisions = (j, epi.initialized[j-2])
                         beginsat[epi.initialized[j-2]].discard((epi, j-1))
                         epi.initialized[j-2] = 0
                         waits[e].discard((epi, j))
 
-            for epi, j, t in transisions:
-                epi.initialized[j-1] = t
-                beginsat[t].add((epi, j))
-                if j < len(epi):
-                    waits[epi[j]].add((epi, j+1))
+                    t_j, t_t = transisions
+                    beginsat[epi.initialized[t_j-1]].discard((epi, len(epi)))
+                    epi.initialized[t_j-1] = t_t
+                    beginsat[t_t].add((epi, t_j))
+                    if t_j < len(epi):
+                        waits[epi[t_j]].add((epi, t_j+1))
+
             # drop out old events from the window
             for epi, l in beginsat[start-1]:
                 if l == len(epi):
@@ -246,7 +248,7 @@ class WINEPI(object):
 
         # recognition
         sequence = [s for s in self.sequence if t_s <= s[0] < t_e]
-        for start in range(t_s-win+1, t_e+1):
+        for start in range(t_s-win+1, t_e):
             # bring in new events to the window
             t = start + win - 1
             new_events = [s[1] for s in sequence if s[0] == t]

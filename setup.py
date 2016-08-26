@@ -7,7 +7,7 @@ __author__ = 'Tatsuya Nakamura'
 
 setup(
     name='episode_mining',
-    version='0.2.3',
+    version='0.3',
     description='An inplementation of sequential patterm mining method',
     author='Tatsuya Nakamura',
     author_email='nkmrtty.com@gmail.com',
