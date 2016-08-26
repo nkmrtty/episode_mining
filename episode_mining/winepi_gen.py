@@ -33,7 +33,8 @@ class WINEPIGen(WINEPI):
         size = 1
         C[size] = FrequentEpisodes(
             [self.Episode((e,)) for e in sorted(
-                set([e for _, e in self.sequence]))], size)
+                set([e for _, e in self.sequence]))],
+            size)
         while len(C[size]) > 0:
             candidates = self.recognize_candidate(
                 C[size], t_s, t_e, win, min_fr

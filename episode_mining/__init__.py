@@ -1,7 +1,7 @@
 # coding: utf-8
 class Episode(object):
     def __init__(self, events):
-        self.events = list(events)
+        self.events = tuple(events)
         self.frequency = 0
         self.superepisodes = []
         self.score = 0.0
@@ -25,16 +25,16 @@ class Episode(object):
 
 class ParallelEpisode(Episode):
     def __init__(self, events):
-        Episode.__init__(self, events)
+        Episode.__init__(self, sorted(events))
         self.event_count = 0
         self.freq_count = 0
         self.inwindow = 0
 
     def __eq__(self, other):
-        return sorted(self.events) == sorted(other)
+        return self.events == other
 
     def __ne__(self, other):
-        return sorted(self.events) != sorted(other)
+        return self.events != other
 
     def count(self, event_type):
         return self.events.count(event_type)
