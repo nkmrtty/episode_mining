@@ -31,8 +31,12 @@ class ParallelEpisode(Episode):
         self.inwindow = 0
 
     def __eq__(self, other):
-        return self.events == other
+        if isinstance(other, ParallelEpisode):
+            return self.events == other.events
+        return False
 
+    def __hash__(self):
+        return hash(tuple(self.events))
     def __ne__(self, other):
         return self.events != other
 
